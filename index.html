@@ -1,3 +1,7 @@
+  <button type="button" onclick="compartilharWhats()" style="background:#25D366; color:#fff; margin-top:10px;">
+  📲 Compartilhar no WhatsApp
+</button>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head> <link rel="manifest" href="manifest.json">
@@ -3137,6 +3141,50 @@ if(hoje<"2026-09-01") hoje="2026-09-01";
 if(hoje>"2026-12-31") hoje="2026-12-31";
 document.getElementById("data").value=hoje;
 consultarMares();
-</script>
+</script>  <script>
+    // ... todo o código das marés ...
+
+    function compartilharWhats() {
+      const dataInput = document.getElementById('data').value;
+      let mensagem = '';
+      
+      if (dataInput && typeof dadosMarinha !== 'undefined' && dadosMarinha[dataInput]) {
+        const lista = dadosMarinha[dataInput];
+        mensagem = `🌊 *Marés de Barra dos Coqueiros - ${dataInput}*\n\n`;
+        lista.forEach(m => {
+          mensagem += `• ${m.hora} - ${m.tipo} (${m.altura})\n`;
+        });
+        mensagem += `\nVeja no app: https://j5paulo012-beep.github.io/mares-sergipe/`;
+      } else {
+        mensagem = `Confira a tábua de marés de Barra dos Coqueiros: https://j5paulo012-beep.github.io/mares-sergipe/`;
+      }
+      
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(mensagem)}`, '_blank');
+    }function alternarTema() {
+  const body = document.body;
+  const btn = document.getElementById('btnTema');
+  body.classList.toggle('modo-escuro');
+  if (body.classList.contains('modo-escuro')) {
+    btn.textContent = '☀️ Modo Claro';
+    localStorage.setItem('tema', 'escuro');
+  } else {
+    btn.textContent = '🌙 Modo Escuro';
+    localStorage.setItem('tema', 'claro');
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('tema') === 'escuro') {
+    document.body.classList.add('modo-escuro');
+    const btn = document.getElementById('btnTema');
+    if (btn) btn.textContent = '☀️ Modo Claro';
+  }
+});
+
+  </script>
 </body>
 </html>
+
+</body>
+</html>
+    
