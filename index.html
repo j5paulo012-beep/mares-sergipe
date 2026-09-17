@@ -1,120 +1,3142 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marés de Sergipe</title>
-  
-  <!-- Configurações de Aplicativo (PWA Integrado) -->
-  <meta name="theme-color" content="#0284c7">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Marés SE">
-  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-  
-  <!-- Manifest Embutido Via Data URI para Permitir Instalação Direta -->
-  <link rel="manifest" href='data:application/manifest+json,{"name":"Marés de Sergipe","short_name":"Marés SE","start_url":"./index.html","display":"standalone","background_color":"#0284c7","theme_color":"#0284c7","icons":[{"src":"https://cdn-icons-png.flaticon.com/512/3135/3135715.png","sizes":"512x512","type":"image/png"}]}'>
+<head> <link rel="manifest" href="manifest.json">
 
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: #f0f9ff; color: #0f172a; padding: 16px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-    header { text-align: center; margin-bottom: 20px; }
-    h1 { color: #0284c7; font-size: 1.6rem; margin-bottom: 4px; }
-    p.subtitle { color: #64748b; font-size: 0.9rem; }
-    .card { background: #ffffff; width: 100%; max-width: 480px; border-radius: 16px; padding: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 16px; }
-    .controls { display: flex; gap: 8px; margin-bottom: 16px; }
-    input[type="date"] { flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; color: #334155; }
-    .tide-list { display: flex; flex-direction: column; gap: 10px; }
-    .tide-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-radius: 10px; background-color: #f8fafc; border-left: 5px solid #cbd5e1; }
-    .tide-item.alta { border-left-color: #0284c7; background-color: #f0f9ff; }
-    .tide-item.baixa { border-left-color: #f59e0b; background-color: #fffbeb; }
-    .time { font-weight: bold; font-size: 1.1rem; }
-    .height { font-weight: 600; font-size: 1rem; }
-    .badge { padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
-    .badge-alta { background-color: #e0f2fe; color: #0369a1; }
-    .badge-baixa { background-color: #fef3c7; color: #b45309; }
-    .empty-state { text-align: center; color: #94a3b8; padding: 20px 0; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TÃ¡bua de Mares  — Barra dos Coqueiros 2026</title>
+<style>
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+body{margin:0;padding:15px;background:#f0f4f8}
+.card{width:100%;max-width:480px;margin:auto;background:#fff;border-radius:14px;padding:20px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+h2{margin:0;text-align:center;color:#005691}
+.subtitulo{text-align:center;margin:6px 0 20px;color:#666;font-size:13px;font-weight:bold}
+.form-group{margin-bottom:15px}
+label{display:block;margin-bottom:6px;font-weight:bold;color:#333;font-size:14px}
+input[type=date]{width:100%;padding:12px;border:1px solid #ccc;border-radius:7px;font-size:15px;background:#fff}
+button{width:100%;padding:13px;border:0;border-radius:7px;background:#0066b2;color:#fff;font-size:16px;font-weight:bold;cursor:pointer}
+button:active{background:#00447a}
+.resultado{margin-top:20px;padding:12px;background:#f8fbfd;border-radius:8px;border:1px solid #e1e8ed}
+.resultado h3{margin:0 0 8px;text-align:center;color:#333;font-size:15px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;text-align:center;border-bottom:1px solid #e0e0e0}
+th{background:#eef6fc;color:#005691}
+.mare-alta{color:#d9534f;font-weight:bold}
+.mare-baixa{color:#0275d8;font-weight:bold}
+.aviso{font-size:11px;color:#666;text-align:center;line-height:1.4;margin-top:12px}
+.btn-marinha{display:block;margin-top:12px;padding:11px;text-align:center;text-decoration:none;border-radius:7px;background:#eef6fc;border:1px solid #bce0fd;color:#005691;font-weight:bold;font-size:13px}
+.fonte{margin-top:18px;padding-top:10px;border-top:1px solid #eee;text-align:center;color:#555;font-size:11px;line-height:1.4}
+</style>
 </head>
 <body>
+<div class="card">
+<h2>Mare de Sergipe </h2>
+<div class="subtitulo">Barra dos Coqueiros / Sergipe — 2026</div>
 
-  <header>
-    <h1>🌊 Marés de Sergipe</h1>
-    <p class="subtitle">Barra dos Coqueiros - Setembro a Dezembro 2026</p>
-  </header>
+<div class="form-group">
+<label for="data">Selecione a data:</label>
+<input type="date" id="data" min="2026-09-01" max="2026-12-31">
+</div>
 
-  <main class="card">
-    <div class="controls">
-      <input type="date" id="datePicker" min="2026-09-01" max="2026-12-31">
-    </div>
+<button type="button" onclick="consultarMares()"> Consultar Mares</button>
 
-    <div id="tideResults" class="tide-list">
-      <!-- Resultados serão inseridos via JS -->
-    </div>
-  </main>
+<div class="resultado">
+<h3 id="tituloResultado">Escolha uma data</h3>
+<table>
+<thead><tr><th>horário</th><th>Tipo</th><th>Altura</th></tr></thead>
+<tbody id="tabelaCorpo"></tbody>
+</table>
+<p class="aviso">Dados transcritos da tÃ¡bua fornecida. horários #3334BEno fuso UTCâˆ’03.</p>
+</div>
 
-  <script>
-    // Registro Automático do Service Worker para PWA sem precisar de arquivo extra
-    if ('serviceWorker' in navigator) {
-      const swCode = `
-        self.addEventListener('install', e => self.skipWaiting());
-        self.addEventListener('activate', e => self.clients.claim());
-        self.addEventListener('fetch', e => e.respondWith(fetch(e.request)));
-      `;
-      const blob = new Blob([swCode], { type: 'application/javascript' });
-      const swUrl = URL.createObjectURL(blob);
-      navigator.serviceWorker.register(swUrl).catch(() => {});
+<a class="btn-marinha" href="https://www.marinha.mil.br/chm/dados-do-segnav-publicacoes/tabuas-das-mares" target="_blank">âš“ Fonte: Marinha / CHM</a>
+
+<p class="fonte"><strong>PerÃ­odo:</strong> setembro a dezembro de 2026.<br>
+<strong>Local indicado na tÃ¡bua:</strong> latitude 10Â°55'2 S, longitude 37Â°02'8 W.</p>
+</div>
+
+<script>
+const dadosMarinha = {
+  "2026-09-01": [
+    {
+      "hora": "00:27",
+      "tipo": "Maré Seca ",
+      "altura": ".23 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "06:31",
+      "tipo": "Maré Cheia",
+      "altura": "2.06 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "12:53",
+      "tipo": "Maré Seca ",
+      "altura": ".28 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "18:51",
+      "tipo": "Maré Cheia",
+      "altura": "1.94 m",
+      "classe": "mare-alta"
     }
-
-    // Dados de Marés da Barra dos Coqueiros (Exemplo do Período Set–Dez 2026)
-    const tideData = {
-      "2026-09-17": [
-        { time: "03:12", height: 0.3, type: "baixa" },
-        { time: "09:25", height: 2.1, type: "alta" },
-        { time: "15:40", height: 0.4, type: "baixa" },
-        { time: "21:50", height: 2.0, type: "alta" }
-      ],
-      "2026-09-18": [
-        { time: "03:50", height: 0.2, type: "baixa" },
-        { time: "10:02", height: 2.2, type: "alta" },
-        { time: "16:18", height: 0.3, type: "baixa" },
-        { time: "22:28", height: 2.1, type: "alta" }
-      ]
-    };
-
-    const datePicker = document.getElementById('datePicker');
-    const tideResults = document.getElementById('tideResults');
-
-    // Define a data atual como padrão se estiver no intervalo
-    const today = new Date().toISOString().split('T')[0];
-    datePicker.value = (today >= "2026-09-01" && today <= "2026-12-31") ? today : "2026-09-17";
-
-    function renderTides(selectedDate) {
-      tideResults.innerHTML = '';
-      const dayData = tideData[selectedDate];
-
-      if (!dayData || dayData.length === 0) {
-        tideResults.innerHTML = '<div class="empty-state">Nenhum dado disponível para esta data.</div>';
-        return;
-      }
-
-      dayData.forEach(item => {
-        const div = document.createElement('div');
-        div.className = `tide-item ${item.type}`;
-        div.innerHTML = `
-          <div>
-            <span class="time">${item.time}</span>
-            <span class="badge badge-${item.type}">${item.type === 'alta' ? 'Maré Cheia' : 'Maré Baixa'}</span>
-          </div>
-          <div class="height">${item.height.toFixed(1)} m</div>
-        `;
-        tideResults.appendChild(div);
-      });
+  ],
+  "2026-09-02": [
+    {
+      "hora": "01:10",
+      "tipo": "Maré Seca ",
+      "altura": ".30 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "07:17",
+      "tipo": "Maré Cheia",
+      "altura": "1.95 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "13:38",
+      "tipo": "Maré Seca ",
+      "altura": ".43 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "19:38",
+      "tipo": "Maré Cheia",
+      "altura": "1.84 m",
+      "classe": "mare-alta"
     }
+  ],
+  "2026-09-03": [
+    {
+      "hora": "02:02",
+      "tipo": "Maré Seca ",
+      "altura": ".41 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "08:16",
+      "tipo": "Maré Cheia",
+      "altura": "1.81 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "14:34",
+      "tipo": "Maré Seca ",
+      "altura": ".59 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "20:38",
+      "tipo": "Maré Cheia",
+      "altura": "1.73 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-09-04": [
+    {
+      "hora": "03:08",
+      "tipo": "Maré Seca ",
+      "altura": ".53 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "09:31",
+      "tipo": "Maré Cheia",
+      "altura": "1.68 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "15:53",
+      "tipo": "Maré Seca ",
+      "altura": ".72 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "21:57",
+      "tipo": "Maré Cheia",
+      "altura": "1.66 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-09-05": [
+    {
+      "hora": "04:42",
+      "tipo": "Maré Seca ",
+      "altura": ".57 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "11:06",
+      "tipo": "Maré Cheia",
+      "altura": "1.64 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "17:27",
+      "tipo": "Maré Seca ",
+      "altura": ".75 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "23:27",
+      "tipo": "Maré Cheia",
+      "altura": "1.68 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-09-06": [
+    {
+      "hora": "06:14",
+      "tipo": "Maré Seca ",
+      "altura": ".50 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "12:36",
+      "tipo": "Maré Cheia",
+      "altura": "1.70 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "18:51",
+      "tipo": "Maré Seca ",
+      "altura": ".65 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-07": [
+    {
+      "hora": "00:49",
+      "tipo": "Maré Cheia",
+      "altura": "1.79 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "07:23",
+      "tipo": "Maré Seca ",
+      "altura": ".35 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "13:46",
+      "tipo": "Maré Cheia",
+      "altura": "1.82 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "19:51",
+      "tipo": "Maré Seca ",
+      "altura": ".50 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-08": [
+    {
+      "hora": "01:53",
+      "tipo": "Maré Cheia",
+      "altura": "1.94 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "08:17",
+      "tipo": "Maré Seca ",
+      "altura": ".20 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "14:36",
+      "tipo": "Maré Cheia",
+      "altura": "1.94 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "20:38",
+      "tipo": "Maré Seca ",
+      "altura": ".35 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-09": [
+    {
+      "hora": "02:42",
+      "tipo": "Maré Cheia",
+      "altura": "2.08 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "09:04",
+      "tipo": "Maré Seca ",
+      "altura": ".09 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "15:17",
+      "tipo": "Maré Cheia",
+      "altura": "2.03 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "21:17",
+      "tipo": "Maré Seca ",
+      "altura": ".23 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-10": [
+    {
+      "hora": "03:25",
+      "tipo": "Maré Cheia",
+      "altura": "2.18 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "09:46",
+      "tipo": "Maré Seca ",
+      "altura": ".04 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "15:53",
+      "tipo": "Maré Cheia",
+      "altura": "2.09 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "21:59",
+      "tipo": "Maré Seca ",
+      "altura": ".14 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-11": [
+    {
+      "hora": "04:02",
+      "tipo": "Maré Cheia",
+      "altura": "2.23 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "10:19",
+      "tipo": "Maré Seca ",
+      "altura": ".04 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "16:25",
+      "tipo": "Maré Cheia",
+      "altura": "2.11 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "22:32",
+      "tipo": "Maré Seca ",
+      "altura": ".11 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-12": [
+    {
+      "hora": "04:40",
+      "tipo": "Maré Cheia",
+      "altura": "2.22 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "10:57",
+      "tipo": "Maré Seca ",
+      "altura": ".09 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "16:57",
+      "tipo": "Maré Cheia",
+      "altura": "2.09 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "23:06",
+      "tipo": "Maré Seca ",
+      "altura": ".13 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-13": [
+    {
+      "hora": "05:12",
+      "tipo": "Maré Cheia",
+      "altura": "2.16 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "11:27",
+      "tipo": "Maré Seca ",
+      "altura": ".18 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "17:27",
+      "tipo": "Maré Cheia",
+      "altura": "2.05 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "23:40",
+      "tipo": "Maré Seca ",
+      "altura": ".19 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-14": [
+    {
+      "hora": "05:47",
+      "tipo": "Maré Cheia",
+      "altura": "2.06 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "11:59",
+      "tipo": "Maré Seca ",
+      "altura": ".29 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "17:59",
+      "tipo": "Maré Cheia",
+      "altura": "1.97 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-09-15": [
+    {
+      "hora": "00:12",
+      "tipo": "Maré Seca ",
+      "altura": ".29 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "06:21",
+      "tipo": "Maré Cheia",
+      "altura": "1.93 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "12:29",
+      "tipo": "Maré Seca ",
+      "altura": ".43 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "18:32",
+      "tipo": "Maré Cheia",
+      "altura": "1.87 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-09-16": [
+    {
+      "hora": "00:47",
+      "tipo": "Maré Seca ",
+      "altura": ".41 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "06:59",
+      "tipo": "Maré Cheia",
+      "altura": "1.78 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "13:02",
+      "tipo": "Maré Seca ",
+      "altura": ".58 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-17": [
+    {
+      "hora": "01:25",
+      "tipo": "Maré Seca ",
+      "altura": ".56 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "07:44",
+      "tipo": "Maré Cheia",
+      "altura": "1.62 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "13:42",
+      "tipo": "Maré Seca ",
+      "altura": ".73 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "19:59",
+      "tipo": "Maré Cheia",
+      "altura": "1.62 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-09-18": [
+    {
+      "hora": "02:16",
+      "tipo": "Maré Seca ",
+      "altura": ".71 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "08:47",
+      "tipo": "Maré Cheia",
+      "altura": "1.48 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "14:38",
+      "tipo": "Maré Seca ",
+      "altura": ".87 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "21:08",
+      "tipo": "Maré Cheia",
+      "altura": "1.50 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-09-19": [
+    {
+      "hora": "03:36",
+      "tipo": "Maré Seca ",
+      "altura": ".82 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "10:21",
+      "tipo": "Maré Cheia",
+      "altura": "1.41 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "16:19",
+      "tipo": "Maré Seca ",
+      "altura": ".96 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "22:51",
+      "tipo": "Maré Cheia",
+      "altura": "1.47 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-09-20": [
+    {
+      "hora": "05:38",
+      "tipo": "Maré Seca ",
+      "altura": ".82 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "12:04",
+      "tipo": "Maré Cheia",
+      "altura": "1.46 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "18:17",
+      "tipo": "Maré Seca ",
+      "altura": ".90 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-21": [
+    {
+      "hora": "00:19",
+      "tipo": "Maré Cheia",
+      "altura": "1.53 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "06:57",
+      "tipo": "Maré Seca ",
+      "altura": ".69 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "13:14",
+      "tipo": "Maré Cheia",
+      "altura": "1.58 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "19:19",
+      "tipo": "Maré Seca ",
+      "altura": ".75 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-22": [
+    {
+      "hora": "01:21",
+      "tipo": "Maré Cheia",
+      "altura": "1.66 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "07:44",
+      "tipo": "Maré Seca ",
+      "altura": ".54 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "14:01",
+      "tipo": "Maré Cheia",
+      "altura": "1.72 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "20:02",
+      "tipo": "Maré Seca ",
+      "altura": ".60 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-23": [
+    {
+      "hora": "02:06",
+      "tipo": "Maré Cheia",
+      "altura": "1.80 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "08:21",
+      "tipo": "Maré Seca ",
+      "altura": ".39 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "14:38",
+      "tipo": "Maré Cheia",
+      "altura": "1.85 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "20:38",
+      "tipo": "Maré Seca ",
+      "altura": ".45 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-24": [
+    {
+      "hora": "02:44",
+      "tipo": "Maré Cheia",
+      "altura": "1.93 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "08:57",
+      "tipo": "Maré Seca ",
+      "altura": ".25 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "15:08",
+      "tipo": "Maré Cheia",
+      "altura": "1.96 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "21:08",
+      "tipo": "Maré Seca ",
+      "altura": ".32 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-25": [
+    {
+      "hora": "03:16",
+      "tipo": "Maré Cheia",
+      "altura": "2.05 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "09:29",
+      "tipo": "Maré Seca ",
+      "altura": ".15 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "15:38",
+      "tipo": "Maré Cheia",
+      "altura": "2.04 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "21:44",
+      "tipo": "Maré Seca ",
+      "altura": ".21 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-26": [
+    {
+      "hora": "03:47",
+      "tipo": "Maré Cheia",
+      "altura": "2.14 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "10:02",
+      "tipo": "Maré Seca ",
+      "altura": ".08 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "16:06",
+      "tipo": "Maré Cheia",
+      "altura": "2.10 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "22:14",
+      "tipo": "Maré Seca ",
+      "altura": ".12 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-27": [
+    {
+      "hora": "04:17",
+      "tipo": "Maré Cheia",
+      "altura": "2.19 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "10:36",
+      "tipo": "Maré Seca ",
+      "altura": ".06 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "16:38",
+      "tipo": "Maré Cheia",
+      "altura": "2.12 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "22:51",
+      "tipo": "Maré Seca ",
+      "altura": ".08 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-28": [
+    {
+      "hora": "04:53",
+      "tipo": "Maré Cheia",
+      "altura": "2.20 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "11:10",
+      "tipo": "Maré Seca ",
+      "altura": ".09 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "17:08",
+      "tipo": "Maré Cheia",
+      "altura": "2.11 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "23:27",
+      "tipo": "Maré Seca ",
+      "altura": ".09 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-09-29": [
+    {
+      "hora": "05:31",
+      "tipo": "Maré Cheia",
+      "altura": "2.16 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "11:51",
+      "tipo": "Maré Seca ",
+      "altura": ".18 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "17:46",
+      "tipo": "Maré Cheia",
+      "altura": "2.06 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-09-30": [
+    {
+      "hora": "00:06",
+      "tipo": "Maré Seca ",
+      "altura": ".14 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "06:12",
+      "tipo": "Maré Cheia",
+      "altura": "2.06 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "12:31",
+      "tipo": "Maré Seca ",
+      "altura": ".31 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "18:25",
+      "tipo": "Maré Cheia",
+      "altura": "1.98 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-10-01": [
+    {
+      "hora": "00:53",
+      "tipo": "Maré Seca ",
+      "altura": ".25 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "07:01",
+      "tipo": "Maré Cheia",
+      "altura": "1.92 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "13:16",
+      "tipo": "Maré Seca ",
+      "altura": ".47 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "19:14",
+      "tipo": "Maré Cheia",
+      "altura": "1.86 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-10-02": [
+    {
+      "hora": "01:47",
+      "tipo": "Maré Seca ",
+      "altura": ".38 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "08:04",
+      "tipo": "Maré Cheia",
+      "altura": "1.77 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "14:16",
+      "tipo": "Maré Seca ",
+      "altura": ".64 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "20:19",
+      "tipo": "Maré Cheia",
+      "altura": "1.74 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-10-03": [
+    {
+      "hora": "02:59",
+      "tipo": "Maré Seca ",
+      "altura": ".51 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "09:27",
+      "tipo": "Maré Cheia",
+      "altura": "1.64 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "15:40",
+      "tipo": "Maré Seca ",
+      "altura": ".76 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "21:46",
+      "tipo": "Maré Cheia",
+      "altura": "1.66 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-10-04": [
+    {
+      "hora": "04:32",
+      "tipo": "Maré Seca ",
+      "altura": ".56 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "11:02",
+      "tipo": "Maré Cheia",
+      "altura": "1.62 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "17:16",
+      "tipo": "Maré Seca ",
+      "altura": ".76 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "23:19",
+      "tipo": "Maré Cheia",
+      "altura": "1.69 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-10-05": [
+    {
+      "hora": "06:02",
+      "tipo": "Maré Seca ",
+      "altura": ".49 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "12:27",
+      "tipo": "Maré Cheia",
+      "altura": "1.70 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "18:36",
+      "tipo": "Maré Seca ",
+      "altura": ".64 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-06": [
+    {
+      "hora": "00:38",
+      "tipo": "Maré Cheia",
+      "altura": "1.81 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "07:08",
+      "tipo": "Maré Seca ",
+      "altura": ".36 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "13:27",
+      "tipo": "Maré Cheia",
+      "altura": "1.81 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "19:32",
+      "tipo": "Maré Seca ",
+      "altura": ".48 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-07": [
+    {
+      "hora": "01:36",
+      "tipo": "Maré Cheia",
+      "altura": "1.94 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "08:01",
+      "tipo": "Maré Seca ",
+      "altura": ".24 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "14:14",
+      "tipo": "Maré Cheia",
+      "altura": "1.92 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "20:16",
+      "tipo": "Maré Seca ",
+      "altura": ".34 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-08": [
+    {
+      "hora": "02:23",
+      "tipo": "Maré Cheia",
+      "altura": "2.06 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "08:44",
+      "tipo": "Maré Seca ",
+      "altura": ".16 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "14:51",
+      "tipo": "Maré Cheia",
+      "altura": "2.00 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "20:59",
+      "tipo": "Maré Seca ",
+      "altura": ".22 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-09": [
+    {
+      "hora": "03:02",
+      "tipo": "Maré Cheia",
+      "altura": "2.13 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "09:19",
+      "tipo": "Maré Seca ",
+      "altura": ".13 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "15:23",
+      "tipo": "Maré Cheia",
+      "altura": "2.05 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "21:34",
+      "tipo": "Maré Seca ",
+      "altura": ".16 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-10": [
+    {
+      "hora": "03:40",
+      "tipo": "Maré Cheia",
+      "altura": "2.16 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "09:55",
+      "tipo": "Maré Seca ",
+      "altura": ".14 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "15:55",
+      "tipo": "Maré Cheia",
+      "altura": "2.08 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "22:06",
+      "tipo": "Maré Seca ",
+      "altura": ".13 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-11": [
+    {
+      "hora": "04:12",
+      "tipo": "Maré Cheia",
+      "altura": "2.13 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "10:25",
+      "tipo": "Maré Seca ",
+      "altura": ".19 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "16:25",
+      "tipo": "Maré Cheia",
+      "altura": "2.07 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "22:40",
+      "tipo": "Maré Seca ",
+      "altura": ".15 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-12": [
+    {
+      "hora": "04:46",
+      "tipo": "Maré Cheia",
+      "altura": "2.07 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "10:57",
+      "tipo": "Maré Seca ",
+      "altura": ".27 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "16:55",
+      "tipo": "Maré Cheia",
+      "altura": "2.03 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "23:10",
+      "tipo": "Maré Seca ",
+      "altura": ".21 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-13": [
+    {
+      "hora": "05:16",
+      "tipo": "Maré Cheia",
+      "altura": "1.99 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "11:25",
+      "tipo": "Maré Seca ",
+      "altura": ".36 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "17:23",
+      "tipo": "Maré Cheia",
+      "altura": "1.97 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "23:46",
+      "tipo": "Maré Seca ",
+      "altura": ".29 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-14": [
+    {
+      "hora": "05:51",
+      "tipo": "Maré Cheia",
+      "altura": "1.87 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "11:57",
+      "tipo": "Maré Seca ",
+      "altura": ".47 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "17:57",
+      "tipo": "Maré Cheia",
+      "altura": "1.88 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-10-15": [
+    {
+      "hora": "00:17",
+      "tipo": "Maré Seca ",
+      "altura": ".41 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "06:27",
+      "tipo": "Maré Cheia",
+      "altura": "1.74 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "12:29",
+      "tipo": "Maré Seca ",
+      "altura": ".59 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "18:34",
+      "tipo": "Maré Cheia",
+      "altura": "1.76 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-10-16": [
+    {
+      "hora": "00:59",
+      "tipo": "Maré Seca ",
+      "altura": ".53 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "07:12",
+      "tipo": "Maré Cheia",
+      "altura": "1.61 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "13:08",
+      "tipo": "Maré Seca ",
+      "altura": ".72 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-17": [
+    {
+      "hora": "01:47",
+      "tipo": "Maré Seca ",
+      "altura": ".67 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "08:16",
+      "tipo": "Maré Cheia",
+      "altura": "1.50 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "14:04",
+      "tipo": "Maré Seca ",
+      "altura": ".85 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "20:31",
+      "tipo": "Maré Cheia",
+      "altura": "1.53 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-10-18": [
+    {
+      "hora": "02:57",
+      "tipo": "Maré Seca ",
+      "altura": ".77 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "09:47",
+      "tipo": "Maré Cheia",
+      "altura": "1.44 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "15:32",
+      "tipo": "Maré Seca ",
+      "altura": ".93 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "22:06",
+      "tipo": "Maré Cheia",
+      "altura": "1.48 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-10-19": [
+    {
+      "hora": "04:38",
+      "tipo": "Maré Seca ",
+      "altura": ".79 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "11:17",
+      "tipo": "Maré Cheia",
+      "altura": "1.48 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "17:21",
+      "tipo": "Maré Seca ",
+      "altura": ".89 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "23:32",
+      "tipo": "Maré Cheia",
+      "altura": "1.54 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-10-20": [
+    {
+      "hora": "06:02",
+      "tipo": "Maré Seca ",
+      "altura": ".69 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "12:27",
+      "tipo": "Maré Cheia",
+      "altura": "1.59 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "18:34",
+      "tipo": "Maré Seca ",
+      "altura": ".76 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-21": [
+    {
+      "hora": "00:36",
+      "tipo": "Maré Cheia",
+      "altura": "1.66 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "07:01",
+      "tipo": "Maré Seca ",
+      "altura": ".55 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "13:16",
+      "tipo": "Maré Cheia",
+      "altura": "1.72 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "19:19",
+      "tipo": "Maré Seca ",
+      "altura": ".60 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-22": [
+    {
+      "hora": "01:23",
+      "tipo": "Maré Cheia",
+      "altura": "1.80 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "07:44",
+      "tipo": "Maré Seca ",
+      "altura": ".40 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "13:57",
+      "tipo": "Maré Cheia",
+      "altura": "1.85 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "20:01",
+      "tipo": "Maré Seca ",
+      "altura": ".44 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-23": [
+    {
+      "hora": "02:04",
+      "tipo": "Maré Cheia",
+      "altura": "1.93 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "08:19",
+      "tipo": "Maré Seca ",
+      "altura": ".27 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "14:29",
+      "tipo": "Maré Cheia",
+      "altura": "1.96 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "20:38",
+      "tipo": "Maré Seca ",
+      "altura": ".29 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-24": [
+    {
+      "hora": "02:42",
+      "tipo": "Maré Cheia",
+      "altura": "2.05 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "08:59",
+      "tipo": "Maré Seca ",
+      "altura": ".17 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "15:02",
+      "tipo": "Maré Cheia",
+      "altura": "2.06 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "21:12",
+      "tipo": "Maré Seca ",
+      "altura": ".16 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-25": [
+    {
+      "hora": "03:17",
+      "tipo": "Maré Cheia",
+      "altura": "2.15 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "09:34",
+      "tipo": "Maré Seca ",
+      "altura": ".11 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "15:36",
+      "tipo": "Maré Cheia",
+      "altura": "2.12 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "21:51",
+      "tipo": "Maré Seca ",
+      "altura": ".07 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-26": [
+    {
+      "hora": "03:55",
+      "tipo": "Maré Cheia",
+      "altura": "2.20 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "10:10",
+      "tipo": "Maré Seca ",
+      "altura": ".09 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "16:10",
+      "tipo": "Maré Cheia",
+      "altura": "2.15 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "22:29",
+      "tipo": "Maré Seca ",
+      "altura": ".03 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-27": [
+    {
+      "hora": "04:34",
+      "tipo": "Maré Cheia",
+      "altura": "2.20 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "10:53",
+      "tipo": "Maré Seca ",
+      "altura": ".13 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "16:47",
+      "tipo": "Maré Cheia",
+      "altura": "2.15 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "23:08",
+      "tipo": "Maré Seca ",
+      "altura": ".03 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-28": [
+    {
+      "hora": "05:16",
+      "tipo": "Maré Cheia",
+      "altura": "2.14 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "11:32",
+      "tipo": "Maré Seca ",
+      "altura": ".22 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "17:25",
+      "tipo": "Maré Cheia",
+      "altura": "2.10 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "23:55",
+      "tipo": "Maré Seca ",
+      "altura": ".09 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-10-29": [
+    {
+      "hora": "06:02",
+      "tipo": "Maré Cheia",
+      "altura": "2.04 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "12:16",
+      "tipo": "Maré Seca ",
+      "altura": ".34 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "18:12",
+      "tipo": "Maré Cheia",
+      "altura": "2.01 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-10-30": [
+    {
+      "hora": "00:44",
+      "tipo": "Maré Seca ",
+      "altura": ".20 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "06:57",
+      "tipo": "Maré Cheia",
+      "altura": "1.90 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "13:06",
+      "tipo": "Maré Seca ",
+      "altura": ".49 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "19:04",
+      "tipo": "Maré Cheia",
+      "altura": "1.90 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-10-31": [
+    {
+      "hora": "01:42",
+      "tipo": "Maré Seca ",
+      "altura": ".33 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "08:01",
+      "tipo": "Maré Cheia",
+      "altura": "1.76 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "14:06",
+      "tipo": "Maré Seca ",
+      "altura": ".63 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "20:12",
+      "tipo": "Maré Cheia",
+      "altura": "1.79 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-11-01": [
+    {
+      "hora": "02:51",
+      "tipo": "Maré Seca ",
+      "altura": ".45 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "09:19",
+      "tipo": "Maré Cheia",
+      "altura": "1.67 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "15:23",
+      "tipo": "Maré Seca ",
+      "altura": ".72 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "21:34",
+      "tipo": "Maré Cheia",
+      "altura": "1.73 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-11-02": [
+    {
+      "hora": "04:14",
+      "tipo": "Maré Seca ",
+      "altura": ".51 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "10:44",
+      "tipo": "Maré Cheia",
+      "altura": "1.65 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "16:53",
+      "tipo": "Maré Seca ",
+      "altura": ".72 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "22:59",
+      "tipo": "Maré Cheia",
+      "altura": "1.74 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-11-03": [
+    {
+      "hora": "05:38",
+      "tipo": "Maré Seca ",
+      "altura": ".49 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "11:57",
+      "tipo": "Maré Cheia",
+      "altura": "1.70 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "18:06",
+      "tipo": "Maré Seca ",
+      "altura": ".62 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-04": [
+    {
+      "hora": "00:10",
+      "tipo": "Maré Cheia",
+      "altura": "1.81 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "06:44",
+      "tipo": "Maré Seca ",
+      "altura": ".41 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "12:55",
+      "tipo": "Maré Cheia",
+      "altura": "1.78 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "19:04",
+      "tipo": "Maré Seca ",
+      "altura": ".50 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-05": [
+    {
+      "hora": "01:08",
+      "tipo": "Maré Cheia",
+      "altura": "1.90 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "07:34",
+      "tipo": "Maré Seca ",
+      "altura": ".35 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "13:42",
+      "tipo": "Maré Cheia",
+      "altura": "1.86 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "19:53",
+      "tipo": "Maré Seca ",
+      "altura": ".38 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-06": [
+    {
+      "hora": "01:59",
+      "tipo": "Maré Cheia",
+      "altura": "1.97 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "08:16",
+      "tipo": "Maré Seca ",
+      "altura": ".30 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "14:19",
+      "tipo": "Maré Cheia",
+      "altura": "1.93 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "20:34",
+      "tipo": "Maré Seca ",
+      "altura": ".29 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-07": [
+    {
+      "hora": "02:40",
+      "tipo": "Maré Cheia",
+      "altura": "2.01 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "08:57",
+      "tipo": "Maré Seca ",
+      "altura": ".29 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "14:55",
+      "tipo": "Maré Cheia",
+      "altura": "1.98 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "21:10",
+      "tipo": "Maré Seca ",
+      "altura": ".23 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-08": [
+    {
+      "hora": "03:16",
+      "tipo": "Maré Cheia",
+      "altura": "2.02 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "09:29",
+      "tipo": "Maré Seca ",
+      "altura": ".30 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "15:27",
+      "tipo": "Maré Cheia",
+      "altura": "2.00 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "21:47",
+      "tipo": "Maré Seca ",
+      "altura": ".21 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-09": [
+    {
+      "hora": "03:51",
+      "tipo": "Maré Cheia",
+      "altura": "2.00 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "10:01",
+      "tipo": "Maré Seca ",
+      "altura": ".33 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "15:59",
+      "tipo": "Maré Cheia",
+      "altura": "2.01 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "22:17",
+      "tipo": "Maré Seca ",
+      "altura": ".22 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-10": [
+    {
+      "hora": "04:23",
+      "tipo": "Maré Cheia",
+      "altura": "1.95 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "10:31",
+      "tipo": "Maré Seca ",
+      "altura": ".37 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "16:29",
+      "tipo": "Maré Cheia",
+      "altura": "1.99 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "22:53",
+      "tipo": "Maré Seca ",
+      "altura": ".26 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-11": [
+    {
+      "hora": "04:57",
+      "tipo": "Maré Cheia",
+      "altura": "1.89 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "11:02",
+      "tipo": "Maré Seca ",
+      "altura": ".43 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "17:02",
+      "tipo": "Maré Cheia",
+      "altura": "1.94 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "23:23",
+      "tipo": "Maré Seca ",
+      "altura": ".32 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-12": [
+    {
+      "hora": "05:32",
+      "tipo": "Maré Cheia",
+      "altura": "1.82 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "11:36",
+      "tipo": "Maré Seca ",
+      "altura": ".50 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "17:36",
+      "tipo": "Maré Cheia",
+      "altura": "1.87 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-11-13": [
+    {
+      "hora": "00:01",
+      "tipo": "Maré Seca ",
+      "altura": ".40 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "06:10",
+      "tipo": "Maré Cheia",
+      "altura": "1.73 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "12:10",
+      "tipo": "Maré Seca ",
+      "altura": ".58 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "18:14",
+      "tipo": "Maré Cheia",
+      "altura": "1.79 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-11-14": [
+    {
+      "hora": "00:40",
+      "tipo": "Maré Seca ",
+      "altura": ".49 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "06:55",
+      "tipo": "Maré Cheia",
+      "altura": "1.65 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "12:55",
+      "tipo": "Maré Seca ",
+      "altura": ".68 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "19:01",
+      "tipo": "Maré Cheia",
+      "altura": "1.70 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-11-15": [
+    {
+      "hora": "01:25",
+      "tipo": "Maré Seca ",
+      "altura": ".58 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "07:53",
+      "tipo": "Maré Cheia",
+      "altura": "1.57 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "13:46",
+      "tipo": "Maré Seca ",
+      "altura": ".77 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "20:01",
+      "tipo": "Maré Cheia",
+      "altura": "1.61 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-11-16": [
+    {
+      "hora": "02:23",
+      "tipo": "Maré Seca ",
+      "altura": ".65 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "09:02",
+      "tipo": "Maré Cheia",
+      "altura": "1.53 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "14:51",
+      "tipo": "Maré Seca ",
+      "altura": ".83 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-17": [
+    {
+      "hora": "03:38",
+      "tipo": "Maré Seca ",
+      "altura": ".69 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "10:17",
+      "tipo": "Maré Cheia",
+      "altura": "1.54 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "16:12",
+      "tipo": "Maré Seca ",
+      "altura": ".83 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "22:31",
+      "tipo": "Maré Cheia",
+      "altura": "1.59 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-11-18": [
+    {
+      "hora": "04:57",
+      "tipo": "Maré Seca ",
+      "altura": ".66 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "11:23",
+      "tipo": "Maré Cheia",
+      "altura": "1.60 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "17:29",
+      "tipo": "Maré Seca ",
+      "altura": ".75 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "23:38",
+      "tipo": "Maré Cheia",
+      "altura": "1.66 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-11-19": [
+    {
+      "hora": "06:02",
+      "tipo": "Maré Seca ",
+      "altura": ".57 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "12:19",
+      "tipo": "Maré Cheia",
+      "altura": "1.70 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "18:31",
+      "tipo": "Maré Seca ",
+      "altura": ".62 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-20": [
+    {
+      "hora": "00:34",
+      "tipo": "Maré Cheia",
+      "altura": "1.77 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "06:59",
+      "tipo": "Maré Seca ",
+      "altura": ".46 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "13:06",
+      "tipo": "Maré Cheia",
+      "altura": "1.81 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "19:19",
+      "tipo": "Maré Seca ",
+      "altura": ".46 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-21": [
+    {
+      "hora": "01:23",
+      "tipo": "Maré Cheia",
+      "altura": "1.89 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "07:46",
+      "tipo": "Maré Seca ",
+      "altura": ".35 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "13:49",
+      "tipo": "Maré Cheia",
+      "altura": "1.92 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "20:04",
+      "tipo": "Maré Seca ",
+      "altura": ".31 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-22": [
+    {
+      "hora": "02:08",
+      "tipo": "Maré Cheia",
+      "altura": "2.00 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "08:27",
+      "tipo": "Maré Seca ",
+      "altura": ".25 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "14:29",
+      "tipo": "Maré Cheia",
+      "altura": "2.02 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "20:49",
+      "tipo": "Maré Seca ",
+      "altura": ".17 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-23": [
+    {
+      "hora": "02:53",
+      "tipo": "Maré Cheia",
+      "altura": "2.09 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "09:10",
+      "tipo": "Maré Seca ",
+      "altura": ".19 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "15:08",
+      "tipo": "Maré Cheia",
+      "altura": "2.10 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "21:31",
+      "tipo": "Maré Seca ",
+      "altura": ".07 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-24": [
+    {
+      "hora": "03:38",
+      "tipo": "Maré Cheia",
+      "altura": "2.14 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "09:55",
+      "tipo": "Maré Seca ",
+      "altura": ".17 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "15:49",
+      "tipo": "Maré Cheia",
+      "altura": "2.14 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "22:14",
+      "tipo": "Maré Seca ",
+      "altura": ".01 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-25": [
+    {
+      "hora": "04:21",
+      "tipo": "Maré Cheia",
+      "altura": "2.15 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "10:36",
+      "tipo": "Maré Seca ",
+      "altura": ".18 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "16:32",
+      "tipo": "Maré Cheia",
+      "altura": "2.16 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "23:01",
+      "tipo": "Maré Seca ",
+      "altura": ".00 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-26": [
+    {
+      "hora": "05:08",
+      "tipo": "Maré Cheia",
+      "altura": "2.11 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "11:19",
+      "tipo": "Maré Seca ",
+      "altura": ".24 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "17:16",
+      "tipo": "Maré Cheia",
+      "altura": "2.13 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "23:47",
+      "tipo": "Maré Seca ",
+      "altura": ".04 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-11-27": [
+    {
+      "hora": "05:59",
+      "tipo": "Maré Cheia",
+      "altura": "2.03 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "12:06",
+      "tipo": "Maré Seca ",
+      "altura": ".32 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "18:06",
+      "tipo": "Maré Cheia",
+      "altura": "2.07 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-11-28": [
+    {
+      "hora": "00:36",
+      "tipo": "Maré Seca ",
+      "altura": ".13 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "06:53",
+      "tipo": "Maré Cheia",
+      "altura": "1.93 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "12:57",
+      "tipo": "Maré Seca ",
+      "altura": ".43 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "19:01",
+      "tipo": "Maré Cheia",
+      "altura": "1.99 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-11-29": [
+    {
+      "hora": "01:31",
+      "tipo": "Maré Seca ",
+      "altura": ".25 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "07:51",
+      "tipo": "Maré Cheia",
+      "altura": "1.83 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "13:53",
+      "tipo": "Maré Seca ",
+      "altura": ".54 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "20:02",
+      "tipo": "Maré Cheia",
+      "altura": "1.89 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-11-30": [
+    {
+      "hora": "02:32",
+      "tipo": "Maré Seca ",
+      "altura": ".37 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "08:57",
+      "tipo": "Maré Cheia",
+      "altura": "1.74 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "14:59",
+      "tipo": "Maré Seca ",
+      "altura": ".62 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "21:10",
+      "tipo": "Maré Cheia",
+      "altura": "1.81 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-12-01": [
+    {
+      "hora": "03:42",
+      "tipo": "Maré Seca ",
+      "altura": ".47 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "10:02",
+      "tipo": "Maré Cheia",
+      "altura": "1.69 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "16:10",
+      "tipo": "Maré Seca ",
+      "altura": ".66 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "22:19",
+      "tipo": "Maré Cheia",
+      "altura": "1.77 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-12-02": [
+    {
+      "hora": "04:57",
+      "tipo": "Maré Seca ",
+      "altura": ".53 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "11:08",
+      "tipo": "Maré Cheia",
+      "altura": "1.68 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "17:25",
+      "tipo": "Maré Seca ",
+      "altura": ".63 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "23:31",
+      "tipo": "Maré Cheia",
+      "altura": "1.76 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-12-03": [
+    {
+      "hora": "06:04",
+      "tipo": "Maré Seca ",
+      "altura": ".53 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "12:10",
+      "tipo": "Maré Cheia",
+      "altura": "1.71 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "18:31",
+      "tipo": "Maré Seca ",
+      "altura": ".56 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-04": [
+    {
+      "hora": "00:34",
+      "tipo": "Maré Cheia",
+      "altura": "1.78 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "07:02",
+      "tipo": "Maré Seca ",
+      "altura": ".51 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "13:02",
+      "tipo": "Maré Cheia",
+      "altura": "1.76 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "19:25",
+      "tipo": "Maré Seca ",
+      "altura": ".48 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-05": [
+    {
+      "hora": "01:29",
+      "tipo": "Maré Cheia",
+      "altura": "1.81 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "07:51",
+      "tipo": "Maré Seca ",
+      "altura": ".49 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "13:49",
+      "tipo": "Maré Cheia",
+      "altura": "1.81 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "20:10",
+      "tipo": "Maré Seca ",
+      "altura": ".40 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-06": [
+    {
+      "hora": "02:17",
+      "tipo": "Maré Cheia",
+      "altura": "1.84 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "08:31",
+      "tipo": "Maré Seca ",
+      "altura": ".47 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "14:29",
+      "tipo": "Maré Cheia",
+      "altura": "1.86 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "20:53",
+      "tipo": "Maré Seca ",
+      "altura": ".35 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-07": [
+    {
+      "hora": "02:59",
+      "tipo": "Maré Cheia",
+      "altura": "1.86 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "09:08",
+      "tipo": "Maré Seca ",
+      "altura": ".46 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "15:06",
+      "tipo": "Maré Cheia",
+      "altura": "1.90 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "21:29",
+      "tipo": "Maré Seca ",
+      "altura": ".31 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-08": [
+    {
+      "hora": "03:38",
+      "tipo": "Maré Cheia",
+      "altura": "1.86 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "09:44",
+      "tipo": "Maré Seca ",
+      "altura": ".45 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "15:42",
+      "tipo": "Maré Cheia",
+      "altura": "1.93 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "22:04",
+      "tipo": "Maré Seca ",
+      "altura": ".30 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-09": [
+    {
+      "hora": "04:14",
+      "tipo": "Maré Cheia",
+      "altura": "1.85 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "10:16",
+      "tipo": "Maré Seca ",
+      "altura": ".45 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "16:16",
+      "tipo": "Maré Cheia",
+      "altura": "1.94 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "22:40",
+      "tipo": "Maré Seca ",
+      "altura": ".30 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-10": [
+    {
+      "hora": "04:49",
+      "tipo": "Maré Cheia",
+      "altura": "1.84 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "10:51",
+      "tipo": "Maré Seca ",
+      "altura": ".47 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "16:53",
+      "tipo": "Maré Cheia",
+      "altura": "1.92 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "23:12",
+      "tipo": "Maré Seca ",
+      "altura": ".32 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-11": [
+    {
+      "hora": "05:23",
+      "tipo": "Maré Cheia",
+      "altura": "1.81 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "11:23",
+      "tipo": "Maré Seca ",
+      "altura": ".49 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "17:27",
+      "tipo": "Maré Cheia",
+      "altura": "1.90 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "23:49",
+      "tipo": "Maré Seca ",
+      "altura": ".35 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-12": [
+    {
+      "hora": "06:02",
+      "tipo": "Maré Cheia",
+      "altura": "1.78 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "12:01",
+      "tipo": "Maré Seca ",
+      "altura": ".53 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "18:04",
+      "tipo": "Maré Cheia",
+      "altura": "1.85 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-12-13": [
+    {
+      "hora": "00:25",
+      "tipo": "Maré Seca ",
+      "altura": ".39 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "06:42",
+      "tipo": "Maré Cheia",
+      "altura": "1.74 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "12:40",
+      "tipo": "Maré Seca ",
+      "altura": ".57 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "18:46",
+      "tipo": "Maré Cheia",
+      "altura": "1.80 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-12-14": [
+    {
+      "hora": "01:06",
+      "tipo": "Maré Seca ",
+      "altura": ".44 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "07:25",
+      "tipo": "Maré Cheia",
+      "altura": "1.70 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "13:21",
+      "tipo": "Maré Seca ",
+      "altura": ".63 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "19:31",
+      "tipo": "Maré Cheia",
+      "altura": "1.75 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-12-15": [
+    {
+      "hora": "01:55",
+      "tipo": "Maré Seca ",
+      "altura": ".50 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "08:16",
+      "tipo": "Maré Cheia",
+      "altura": "1.66 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "14:12",
+      "tipo": "Maré Seca ",
+      "altura": ".68 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "20:25",
+      "tipo": "Maré Cheia",
+      "altura": "1.70 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-12-16": [
+    {
+      "hora": "02:47",
+      "tipo": "Maré Seca ",
+      "altura": ".56 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "09:12",
+      "tipo": "Maré Cheia",
+      "altura": "1.63 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "15:12",
+      "tipo": "Maré Seca ",
+      "altura": ".71 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-17": [
+    {
+      "hora": "03:51",
+      "tipo": "Maré Seca ",
+      "altura": ".60 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "10:14",
+      "tipo": "Maré Cheia",
+      "altura": "1.63 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "16:21",
+      "tipo": "Maré Seca ",
+      "altura": ".70 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "22:36",
+      "tipo": "Maré Cheia",
+      "altura": "1.69 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-12-18": [
+    {
+      "hora": "05:02",
+      "tipo": "Maré Seca ",
+      "altura": ".59 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "11:16",
+      "tipo": "Maré Cheia",
+      "altura": "1.67 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "17:34",
+      "tipo": "Maré Seca ",
+      "altura": ".63 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "23:42",
+      "tipo": "Maré Cheia",
+      "altura": "1.73 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-12-19": [
+    {
+      "hora": "06:08",
+      "tipo": "Maré Seca ",
+      "altura": ".55 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "12:16",
+      "tipo": "Maré Cheia",
+      "altura": "1.74 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "18:40",
+      "tipo": "Maré Seca ",
+      "altura": ".51 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-20": [
+    {
+      "hora": "00:46",
+      "tipo": "Maré Cheia",
+      "altura": "1.82 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "07:10",
+      "tipo": "Maré Seca ",
+      "altura": ".47 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "13:10",
+      "tipo": "Maré Cheia",
+      "altura": "1.84 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "19:38",
+      "tipo": "Maré Seca ",
+      "altura": ".36 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-21": [
+    {
+      "hora": "01:44",
+      "tipo": "Maré Cheia",
+      "altura": "1.91 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "08:04",
+      "tipo": "Maré Seca ",
+      "altura": ".38 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "14:02",
+      "tipo": "Maré Cheia",
+      "altura": "1.95 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "20:29",
+      "tipo": "Maré Seca ",
+      "altura": ".22 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-22": [
+    {
+      "hora": "02:38",
+      "tipo": "Maré Cheia",
+      "altura": "2.00 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "08:55",
+      "tipo": "Maré Seca ",
+      "altura": ".30 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "14:51",
+      "tipo": "Maré Cheia",
+      "altura": "2.05 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "21:17",
+      "tipo": "Maré Seca ",
+      "altura": ".09 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-23": [
+    {
+      "hora": "03:29",
+      "tipo": "Maré Cheia",
+      "altura": "2.07 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "09:42",
+      "tipo": "Maré Seca ",
+      "altura": ".24 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "15:38",
+      "tipo": "Maré Cheia",
+      "altura": "2.13 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "22:04",
+      "tipo": "Maré Seca ",
+      "altura": ".00 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-24": [
+    {
+      "hora": "04:17",
+      "tipo": "Maré Cheia",
+      "altura": "2.11 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "10:25",
+      "tipo": "Maré Seca ",
+      "altura": ".21 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "16:25",
+      "tipo": "Maré Cheia",
+      "altura": "2.18 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "22:53",
+      "tipo": "Maré Seca ",
+      "altura": "-.04 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-25": [
+    {
+      "hora": "05:04",
+      "tipo": "Maré Cheia",
+      "altura": "2.11 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "11:10",
+      "tipo": "Maré Seca ",
+      "altura": ".21 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "17:12",
+      "tipo": "Maré Cheia",
+      "altura": "2.20 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "23:38",
+      "tipo": "Maré Seca ",
+      "altura": "-.02 m",
+      "classe": "mare-baixa"
+    }
+  ],
+  "2026-12-26": [
+    {
+      "hora": "05:53",
+      "tipo": "Maré Cheia",
+      "altura": "2.08 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "11:57",
+      "tipo": "Maré Seca ",
+      "altura": ".25 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "17:59",
+      "tipo": "Maré Cheia",
+      "altura": "2.17 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-12-27": [
+    {
+      "hora": "00:23",
+      "tipo": "Maré Seca ",
+      "altura": ".05 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "06:40",
+      "tipo": "Maré Cheia",
+      "altura": "2.01 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "12:42",
+      "tipo": "Maré Seca ",
+      "altura": ".31 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "18:49",
+      "tipo": "Maré Cheia",
+      "altura": "2.10 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-12-28": [
+    {
+      "hora": "01:12",
+      "tipo": "Maré Seca ",
+      "altura": ".16 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "07:27",
+      "tipo": "Maré Cheia",
+      "altura": "1.92 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "13:29",
+      "tipo": "Maré Seca ",
+      "altura": ".40 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "19:40",
+      "tipo": "Maré Cheia",
+      "altura": "2.00 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-12-29": [
+    {
+      "hora": "02:02",
+      "tipo": "Maré Seca ",
+      "altura": ".31 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "08:17",
+      "tipo": "Maré Cheia",
+      "altura": "1.82 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "14:19",
+      "tipo": "Maré Seca ",
+      "altura": ".50 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "20:36",
+      "tipo": "Maré Cheia",
+      "altura": "1.89 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-12-30": [
+    {
+      "hora": "02:59",
+      "tipo": "Maré Seca ",
+      "altura": ".46 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "09:12",
+      "tipo": "Maré Cheia",
+      "altura": "1.73 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "15:19",
+      "tipo": "Maré Seca ",
+      "altura": ".60 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "21:36",
+      "tipo": "Maré Cheia",
+      "altura": "1.78 m",
+      "classe": "mare-alta"
+    }
+  ],
+  "2026-12-31": [
+    {
+      "hora": "04:02",
+      "tipo": "Maré Seca ",
+      "altura": ".59 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "10:12",
+      "tipo": "Maré Cheia",
+      "altura": "1.66 m",
+      "classe": "mare-alta"
+    },
+    {
+      "hora": "16:32",
+      "tipo": "Maré Seca ",
+      "altura": ".66 m",
+      "classe": "mare-baixa"
+    },
+    {
+      "hora": "22:44",
+      "tipo": "Maré Cheia",
+      "altura": "1.69 m",
+      "classe": "mare-alta"
+    }
+  ]
+};
 
-    datePicker.addEventListener('change', (e) => renderTides(e.target.value));
-    renderTides(datePicker.value);
-  </script>
+function consultarMares(){
+  const data=document.getElementById("data").value;
+  const corpo=document.getElementById("tabelaCorpo");
+  const titulo=document.getElementById("tituloResultado");
+  corpo.innerHTML="";
+  if(!data) return;
+  const eventos=dadosMarinha[data];
+  const [ano,mes,dia]=data.split("-");
+  titulo.textContent=`Barra dos Coqueiros / Sergipe  — ${dia}/${mes}/${ano}`;
+  if(!eventos){
+    corpo.innerHTML='<tr><td colspan="3">NÃ£o hÃ¡ registro transcrito para esta data.</td></tr>';
+    return;
+  }
+  eventos.forEach(ev=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${ev.hora}</td><td class="${ev.classe}">${ev.tipo}</td><td>${ev.altura}</td>`;
+    corpo.appendChild(tr);
+  });
+}
+
+const agora=new Date();
+let hoje=agora.toISOString().slice(0,10);
+if(hoje<"2026-09-01") hoje="2026-09-01";
+if(hoje>"2026-12-31") hoje="2026-12-31";
+document.getElementById("data").value=hoje;
+consultarMares();
+</script>
 </body>
 </html>
